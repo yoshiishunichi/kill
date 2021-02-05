@@ -151,6 +151,7 @@ h1 {
   color: #fff;
   font-size: 50px;
   user-select: none;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 #tweetbutton {
