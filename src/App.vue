@@ -77,7 +77,6 @@ export default {
       this.nodisps[0] = true;
       this.nodisps[1] = false;
       this.timeInterval = setInterval(this.setColor, 100);
-      console.log(this.$el.children[0]);
     },
     tapStop() {
       this.killContainer = document.getElementById("kill-container");
@@ -101,8 +100,8 @@ export default {
           // 読み込みが終わったらリサイズのために、canvasを生成しimgを描画する
           img.onload = () => {
             const canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
+            canvas.width = img.width * 3;
+            canvas.height = img.height * 3;
 
             const ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
