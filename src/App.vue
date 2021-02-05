@@ -94,6 +94,7 @@ export default {
         .then(function(dataUrl) {
           const img = new Image();
           img.src = dataUrl;
+          console.log(dataUrl);
 
           img.onload = () => {
             const canvas = document.createElement("canvas");
@@ -114,6 +115,23 @@ export default {
     },
     tapSave() {
       this.save();
+    },
+    update() {
+      // Scripting.FileSystemObject というオブジェクトを作成（JavaScript内でWSHを使ってファイルを扱う）
+      // eslint-disable-next-line no-undef
+      var fs = new ActiveXObject("Scripting.FileSystemObject");
+
+      // text.txtという新規のファイルを作成
+      var file = fs.CreateTextFile("text.txt");
+
+      // texxt.txtファイルへ書き込み
+      file.Write("Complete, written!");
+
+      // text.txtファイルを閉じる
+      file.Close();
+    },
+    tapTweet() {
+      this.update();
     }
   }
 };
