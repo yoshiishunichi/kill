@@ -89,15 +89,12 @@ export default {
     save() {
       this.killContainer = document.getElementById("kill-container");
 
-      // DOM要素をdomtoimageのtoPNGに渡すと結果がPromiseで返ってくる
       domtoimage
         .toPng(this.killContainer)
         .then(function(dataUrl) {
-          // dataUrlが返ってくるのでImageを生成し生成した画像を読み込む
           const img = new Image();
           img.src = dataUrl;
 
-          // 読み込みが終わったらリサイズのために、canvasを生成しimgを描画する
           img.onload = () => {
             const canvas = document.createElement("canvas");
             canvas.width = img.width * 3;
@@ -106,7 +103,6 @@ export default {
             const ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // canvasをblobに変換し、FileSaverでダウンロードを行う
             canvas.toBlob(blob => {
               FileSaver.saveAs(blob, "kill-image.png");
             });
