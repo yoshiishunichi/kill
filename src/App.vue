@@ -1,11 +1,14 @@
 <template>
   <div id="container">
-    <h1 id="kill">殺すぞ</h1>
+    <div class="kill-container" id="kill-container">
+      <h1 id="kill">殺すぞ</h1>
+    </div>
     <div id="tweet">
       <a
         href="http://twitter.com/share?url=https://yoshiishunichi.github.io/kill/&text=殺すぞ"
         id="tweetbutton"
         target="_blank"
+        @click="tapTweet"
         >ツイートする</a
       >
       <input
@@ -23,17 +26,22 @@
         @click="tapStop"
       />
     </div>
+    <button id="save" @click="tapSave">保存！</button>
   </div>
 </template>
 
 <script>
+import domtoimage from "dom-to-image";
+import FileSaver from "file-saver";
+
 export default {
   name: "App",
   data() {
     return {
       timeInterval: null,
       disps: [true, false],
-      nodisps: [false, true]
+      nodisps: [false, true],
+      killContainer: null
     };
   },
   methods: {
@@ -55,23 +63,62 @@ export default {
     },
     setColor() {
       const kill = document.getElementById("kill");
-      const container = document.body;
+      const body = document.body;
+
       kill.style.color = this.colorChange();
-      container.style.backgroundColor = this.colorChange();
+      const backColor = this.colorChange();
+      body.style.backgroundColor = backColor;
+      this.killContainer.style.backgroundColor = backColor;
     },
     tapStart() {
+      this.killContainer = document.getElementById("kill-container");
       this.disps[0] = false;
       this.disps[1] = true;
       this.nodisps[0] = true;
       this.nodisps[1] = false;
       this.timeInterval = setInterval(this.setColor, 100);
+      console.log(this.$el.children[0]);
     },
     tapStop() {
+      this.killContainer = document.getElementById("kill-container");
       this.disps[1] = false;
       this.disps[0] = true;
       this.nodisps[1] = true;
       this.nodisps[0] = false;
       clearInterval(this.timeInterval);
+    },
+    save() {
+      this.killContainer = document.getElementById("kill-container");
+
+      // DOM要素をdomtoimageのtoPNGに渡すと結果がPromiseで返ってくる
+      domtoimage
+        .toPng(this.killContainer)
+        .then(function(dataUrl) {
+          // dataUrlが返ってくるのでImageを生成し生成した画像を読み込む
+          const img = new Image();
+          img.src = dataUrl;
+
+          // 読み込みが終わったらリサイズのために、canvasを生成しimgを描画する
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // canvasをblobに変換し、FileSaverでダウンロードを行う
+            canvas.toBlob(blob => {
+              FileSaver.saveAs(blob, "kill-image.png");
+            });
+          };
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    tapSave() {
+      this.save();
     }
   }
 };
@@ -84,7 +131,11 @@ export default {
 }
 
 body {
-  background-color: black;
+  background-color: #000;
+}
+
+.kill-container {
+  background-color: #000;
 }
 
 div {
@@ -93,16 +144,11 @@ div {
   margin: 0 auto;
 }
 
-#tweet {
-  width: 90%;
-  margin: 0 auto;
-}
-
 h1 {
   text-align: center;
   padding-top: 100px;
   padding-bottom: 100px;
-  color: white;
+  color: #fff;
   font-size: 50px;
   user-select: none;
 }
@@ -122,6 +168,11 @@ h1 {
   vertical-align: middle;
   border-radius: 5px;
   line-height: 30px;
+  margin-left: 20px;
+}
+
+#tweetbutton:hover {
+  opacity: 0.8;
 }
 
 .disp {
@@ -160,5 +211,59 @@ h1 {
   border: 1px gray solid;
   font-size: 14px;
   outline: none;
+}
+
+#save {
+  display: block;
+  margin-left: 20px;
+  margin-top: 15px;
+  background-color: #eee;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  width: 120px;
+  height: 30px;
+  border: 1px gray solid;
+  outline: none;
+  border-radius: 5px;
+}
+
+input:hover {
+  opacity: 0.8;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 300px) {
+  #tweetbutton {
+    font-size: 13px;
+    width: 100px;
+    height: 25px;
+    line-height: 27px;
+  }
+
+  #start {
+    margin-left: 20px;
+    width: 100px;
+    height: 27px;
+    font-size: 12px;
+  }
+
+  #stop {
+    margin-left: 20px;
+    width: 100px;
+    height: 27px;
+    font-size: 12px;
+  }
+
+  #save {
+    font-size: 13px;
+    width: 100px;
+    height: 25px;
+    line-height: 27px;
+  }
 }
 </style>
