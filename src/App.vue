@@ -89,10 +89,12 @@ export default {
     save() {
       this.killContainer = document.getElementById("kill-container");
       const killContainerCopy = this.killContainer;
-      killContainerCopy.style.width = "500px";
-      killContainerCopy.style.height = "500px";
+      killContainerCopy.style.width = "4096px";
+      killContainerCopy.style.height = "4096px";
       killContainerCopy.style.marginLeft = "0px";
-      killContainerCopy.children[0].style.lineHeight = "500px";
+      killContainerCopy.children[0].style.lineHeight = "4096px";
+      killContainerCopy.children[0].style.fontSize = "800px";
+
       domtoimage
         .toPng(killContainerCopy)
         .then(function(dataUrl) {
@@ -113,6 +115,7 @@ export default {
               killContainerCopy.style.height = "275px";
               killContainerCopy.style.marginLeft = "auto";
               killContainerCopy.children[0].style.lineHeight = "275px";
+              killContainerCopy.children[0].style.fontSize = "50px";
             });
           };
         })
