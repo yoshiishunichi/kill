@@ -88,24 +88,31 @@ export default {
     },
     save() {
       this.killContainer = document.getElementById("kill-container");
-
+      const killContainerCopy = this.killContainer;
+      killContainerCopy.style.width = "500px";
+      killContainerCopy.style.height = "500px";
+      killContainerCopy.style.marginLeft = "0px";
+      killContainerCopy.children[0].style.lineHeight = "500px";
       domtoimage
-        .toPng(this.killContainer)
+        .toPng(killContainerCopy)
         .then(function(dataUrl) {
           const img = new Image();
           img.src = dataUrl;
-          console.log(dataUrl);
 
           img.onload = () => {
             const canvas = document.createElement("canvas");
-            canvas.width = img.width * 3;
-            canvas.height = img.height * 3;
+            canvas.width = img.width;
+            canvas.height = img.height;
 
             const ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
             canvas.toBlob(blob => {
               FileSaver.saveAs(blob, "kill-image.png");
+              killContainerCopy.style.width = "100%";
+              killContainerCopy.style.height = "275px";
+              killContainerCopy.style.marginLeft = "auto";
+              killContainerCopy.children[0].style.lineHeight = "275px";
             });
           };
         })
@@ -149,6 +156,7 @@ body {
 
 .kill-container {
   background-color: #000;
+  height: 275px;
 }
 
 div {
@@ -159,12 +167,11 @@ div {
 
 h1 {
   text-align: center;
-  padding-top: 100px;
-  padding-bottom: 100px;
   color: #fff;
   font-size: 50px;
   user-select: none;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  line-height: 275px;
 }
 
 #tweetbutton {
