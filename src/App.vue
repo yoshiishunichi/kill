@@ -4,13 +4,6 @@
       <h1 id="kill">殺すぞ</h1>
     </div>
     <div id="tweet">
-      <a
-        href="http://twitter.com/share?url=https://yoshiishunichi.github.io/kill/&text=殺すぞ"
-        id="tweetbutton"
-        target="_blank"
-        @click="tapTweet"
-        >ツイートする</a
-      >
       <input
         id="start"
         type="button"
@@ -25,8 +18,15 @@
         :class="{ disp: disps[1], nodisp: nodisps[1] }"
         @click="tapStop"
       />
+      <button id="save" @click="tapSave">保存！</button>
+      <a
+        href="http://twitter.com/share?url=https://yoshiishunichi.github.io/kill/&text=殺すぞ"
+        id="tweetbutton"
+        target="_blank"
+        @click="tapTweet"
+        >ツイートする</a
+      >
     </div>
-    <button id="save" @click="tapSave">保存！</button>
   </div>
 </template>
 
@@ -151,6 +151,7 @@ export default {
 * {
   margin: 0px;
   padding: 0px;
+  box-sizing: border-box;
 }
 
 body {
@@ -185,14 +186,17 @@ h1 {
   background-color: skyblue;
   border: 1px gray solid;
   text-decoration: none;
-  width: 120px;
-  height: 28px;
+  min-width: 120px;
+  max-width: 250px;
+  width: 30%;
+  height: 36px;
   text-align: center;
   user-select: none;
   vertical-align: middle;
   border-radius: 5px;
-  line-height: 30px;
-  margin-left: 20px;
+  line-height: 36px;
+  margin-left: 30px;
+  margin-top: 15px;
 }
 
 #tweetbutton:hover {
@@ -214,8 +218,11 @@ h1 {
   font-weight: bold;
   cursor: pointer;
   text-align: center;
-  width: 120px;
-  height: 30px;
+  min-width: 120px;
+  max-width: 250px;
+  width: 30%;
+  height: 36px;
+  line-height: 36px;
   border-radius: 5px;
   border: 1px gray solid;
   font-size: 14px;
@@ -229,8 +236,11 @@ h1 {
   font-weight: bold;
   cursor: pointer;
   text-align: center;
-  width: 120px;
-  height: 30px;
+  min-width: 120px;
+  max-width: 250px;
+  width: 30%;
+  height: 36px;
+  line-height: 36px;
   border-radius: 5px;
   border: 1px gray solid;
   font-size: 14px;
@@ -239,15 +249,18 @@ h1 {
 
 #save {
   display: block;
-  margin-left: 20px;
+  margin-left: 30px;
   margin-top: 15px;
   background-color: #eee;
   color: black;
   font-weight: bold;
   cursor: pointer;
   text-align: center;
-  width: 120px;
-  height: 30px;
+  min-width: 120px;
+  max-width: 250px;
+  width: 30%;
+  height: 36px;
+  line-height: 36px;
   border: 1px gray solid;
   outline: none;
   border-radius: 5px;
@@ -259,35 +272,5 @@ input:hover {
 
 button:hover {
   opacity: 0.8;
-}
-
-@media screen and (max-width: 300px) {
-  #tweetbutton {
-    font-size: 13px;
-    width: 100px;
-    height: 25px;
-    line-height: 27px;
-  }
-
-  #start {
-    margin-left: 20px;
-    width: 100px;
-    height: 27px;
-    font-size: 12px;
-  }
-
-  #stop {
-    margin-left: 20px;
-    width: 100px;
-    height: 27px;
-    font-size: 12px;
-  }
-
-  #save {
-    font-size: 13px;
-    width: 100px;
-    height: 25px;
-    line-height: 27px;
-  }
 }
 </style>
