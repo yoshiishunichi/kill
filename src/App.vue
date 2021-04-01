@@ -264,6 +264,7 @@ h1 {
   border: 1px gray solid;
   outline: none;
   border-radius: 5px;
+  user-select: none;
 }
 
 input:hover {
